@@ -3,7 +3,7 @@
  */
 import axios from 'axios';
 
-const basePath = '/proxy/controller/v1/';
+const basePath = '/proxy/controller/v2/';
 const routerPath = '/proxy/router';
 
 /**
@@ -93,7 +93,8 @@ export function putFunction(item) {
 export function getTriggersHttp() {
   return axios.get(`${basePath}triggers/http`)
     .then(checkStatus)
-    .then(parseJSON);
+    .then(parseJSON)
+    .then((response) => response.map((t) => (t.spec)));
 }
 
 export function removeTriggerHttp(item) {
@@ -127,7 +128,8 @@ export function restRequest(url, method, headers, params, body) {
 export function getKubeWatchers() {
   return axios.get(`${basePath}watches`)
     .then(checkStatus)
-    .then(parseJSON);
+    .then(parseJSON)
+    .then((response) => response.map((t) => (t.spec)));
 }
 export function removeKubeWatcher(item) {
   return axios.delete(`${basePath}watches/${item.metadata.name}`)
@@ -143,7 +145,8 @@ export function postKubeWatcher(item) {
 export function getTriggersTimer() {
   return axios.get(`${basePath}triggers/time`)
     .then(checkStatus)
-    .then(parseJSON);
+    .then(parseJSON)
+    .then((response) => response.map((t) => (t.spec)));
 }
 export function removeTriggerTimer(item) {
   return axios.delete(`${basePath}triggers/time/${item.metadata.name}`)
@@ -158,7 +161,8 @@ export function postTriggerTimer(item) {
 export function getTriggersMQ() {
   return axios.get(`${basePath}triggers/messagequeue`)
     .then(checkStatus)
-    .then(parseJSON);
+    .then(parseJSON)
+    .then((response) => response.map((t) => (t.spec)));
 }
 export function removeTriggerMQ(item) {
   return axios.delete(`${basePath}triggers/messagequeue/${item.metadata.name}`)

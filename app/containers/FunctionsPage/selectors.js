@@ -16,10 +16,10 @@ const makeSelectFunctionByName = () => createSelector(
         uid: functionFound.getIn(['metadata', 'uid']),
         environment: functionFound.getIn(['environment', 'name']),
         code: decodeBase64(functionFound.get('code')),
-        triggersHttp: substate.get('triggersHttp').filter((trigger) => trigger.getIn(['function', 'name']) === functionFound.getIn(['metadata', 'name'])).toJS(),
-        triggersTimer: substate.get('triggersTimer').filter((trigger) => trigger.getIn(['function', 'name']) === functionFound.getIn(['metadata', 'name'])).toJS(),
-        kubeWatchers: substate.get('kubeWatchers').filter((watcher) => watcher.getIn(['function', 'name']) === functionFound.getIn(['metadata', 'name'])).toJS(),
-        triggersMQ: substate.get('triggersMQ').filter((trigger) => trigger.getIn(['function', 'name']) === functionFound.getIn(['metadata', 'name'])).toJS(),
+        triggersHttp: substate.get('triggersHttp').filter((trigger) => trigger.getIn(['functionref', 'name']) === functionFound.getIn(['metadata', 'name'])).toJS(),
+        triggersTimer: substate.get('triggersTimer').filter((trigger) => trigger.getIn(['functionref', 'name']) === functionFound.getIn(['metadata', 'name'])).toJS(),
+        kubeWatchers: substate.get('kubeWatchers').filter((watcher) => watcher.getIn(['functionref', 'name']) === functionFound.getIn(['metadata', 'name'])).toJS(),
+        triggersMQ: substate.get('triggersMQ').filter((trigger) => trigger.getIn(['functionref', 'name']) === functionFound.getIn(['metadata', 'name'])).toJS(),
       });
     }
     return false;
@@ -51,11 +51,11 @@ const makeSelectFunctions = () => createSelector(
   selectFunctionsPageDomain(),
   (substate) => substate.get('functions').map((e) => ({
     name: e.getIn(['metadata', 'name']),
-    environment: e.getIn(['environment', 'name']),
-    triggersHttp: (substate.get('triggersHttp').filter((trigger) => trigger.getIn(['function', 'name']) === e.getIn(['metadata', 'name']))).toJS(), // TODO improve, simplify object
-    triggersTimer: (substate.get('triggersTimer').filter((trigger) => trigger.getIn(['function', 'name']) === e.getIn(['metadata', 'name']))).toJS(), // TODO improve, simplify object
-    triggersMQ: (substate.get('triggersMQ').filter((trigger) => trigger.getIn(['function', 'name']) === e.getIn(['metadata', 'name']))).toJS(), // TODO improve, simplify object
-    kubeWatchers: (substate.get('kubeWatchers').filter((watcher) => watcher.getIn(['function', 'name']) === e.getIn(['metadata', 'name']))).toJS(),
+    environment: e.getIn(['spec', 'environment', 'name']),
+    triggersHttp: (substate.get('triggersHttp').filter((trigger) => trigger.getIn(['functionref', 'name']) === e.getIn(['metadata', 'name']))).toJS(), // TODO improve, simplify object
+    triggersTimer: (substate.get('triggersTimer').filter((trigger) => trigger.getIn(['functionref', 'name']) === e.getIn(['metadata', 'name']))).toJS(), // TODO improve, simplify object
+    triggersMQ: (substate.get('triggersMQ').filter((trigger) => trigger.getIn(['functionref', 'name']) === e.getIn(['metadata', 'name']))).toJS(), // TODO improve, simplify object
+    kubeWatchers: (substate.get('kubeWatchers').filter((watcher) => watcher.getIn(['functionref', 'name']) === e.getIn(['metadata', 'name']))).toJS(),
   })).toJS()
 );
 

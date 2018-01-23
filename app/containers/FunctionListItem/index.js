@@ -42,7 +42,7 @@ function renderTriggersHttp(item) {
         item.triggersHttp.map((trigger, index) => (
           <li key={`triggerHttp-${index}`}>
             <span className="label label-info">{trigger.method}</span>{ ' ' }
-            {trigger.urlpattern}{ ' ' }
+            {trigger.relativeurl}{ ' ' }
           </li>
         ))
       }
