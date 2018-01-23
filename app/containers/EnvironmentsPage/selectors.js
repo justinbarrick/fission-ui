@@ -11,7 +11,7 @@ const makeSelectEnvironmentByName = () => createSelector(
   (substate) => (environmentName) => {
     const environmentFound = substate.get('environments').find((environment) => environment.getIn(['metadata', 'name']) === environmentName);
     if (environmentFound) {
-      return ({ name: environmentFound.getIn(['metadata', 'name']), image: environmentFound.get('runContainerImageUrl') });
+      return environmentFound;
     }
     return false;
   }
@@ -29,7 +29,7 @@ const makeSelectError = () => createSelector(
 
 const makeSelectEnvironments = () => createSelector(
   selectEnvironmentsPageDomain(),
-  (substate) => substate.get('environments').map((e) => ({ name: e.getIn(['metadata', 'name']), image: e.get('runContainerImageUrl') })).toJS()
+  (substate) => substate.get('environments').toJS()
 );
 
 

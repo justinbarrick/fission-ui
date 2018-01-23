@@ -54,10 +54,10 @@ export function removeEnvironment(environment) {
     .then(parseJSON);
 }
 export function updateEnvironment(environment) {
-  return axios.put(`${basePath}environments/${environment.name}`, { metadata: { name: environment.name }, runContainerImageUrl: environment.image })
+  return axios.put(`${basePath}environments/${environment.metadata.name}`, environment)
     .then(checkStatus)
     .then(parseJSON)
-    .then((response) => ({ runContainerImageUrl: environment.image, metadata: response }));
+    .then((response) => ({ spec: { runtime: { image: environment.image } }, metadata: response }));
 }
 export function createEnvironment(environment) {
   return axios.post(`${basePath}environments`, { metadata: { name: environment.name }, runContainerImageUrl: environment.image })
